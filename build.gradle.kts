@@ -26,9 +26,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 	// database stuff
-	// runtimeOnly("mysql:mysql-connector-java")
-	// implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
-	// implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("mysql:mysql-connector-java:8.0.30")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	// testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
