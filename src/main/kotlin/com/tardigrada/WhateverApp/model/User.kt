@@ -2,7 +2,6 @@ package com.tardigrada.WhateverApp.model
 
 import javax.persistence.*
 
-
 @Entity
 @Table(name = "tbl_users")
 data class User(
@@ -10,8 +9,8 @@ data class User(
     // TODO: UUID will be created
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(length = 40, name = "user_id")
-    val userId: Int,
+    @Column(name = "user_uuid")
+    val userUuid: Int,
 
     @Column(nullable = false, length = 50, name = "first_name")
     val firstName: String,
