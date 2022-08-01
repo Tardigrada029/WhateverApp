@@ -21,16 +21,16 @@ class UserController(private val userService: UserService) {
     @GetMapping
     fun getUsers() = userService.getUsers()
 
-    @GetMapping("/{userUuid}")
-    fun getUserByUuid(@PathVariable userUuid: Int) = userService.getUserByUuid(userUuid)
+    @GetMapping("/{userId}")
+    fun getUserById(@PathVariable userId: Int) = userService.getUserById(userId)
 
     @PostMapping
     fun saveUser(@RequestBody user: User) = userService.saveUser(user)
 
-    @PatchMapping("/{userUuid}")
-    fun updateUserByUuid(@PathVariable userUuid: Int, @RequestBody user: User) = userService.updateUserByUuid(user, userUuid)
+    @PatchMapping("/{userId}")
+    fun updateUserById(@PathVariable userId: Int, @RequestBody user: User) = userService.updateUserById(user, userId)
 
-    @DeleteMapping("/{userUuid}")
-    fun deleteUserByUuid(@PathVariable userUuid: Int) = userService.deleteUserByUuid(userUuid)
+    @DeleteMapping("/{userId}")
+    fun deleteUserById(@PathVariable userId: Int) = userService.deleteUserById(userId)
 
 }
