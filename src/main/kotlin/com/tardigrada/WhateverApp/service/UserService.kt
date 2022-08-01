@@ -1,5 +1,6 @@
 package com.tardigrada.WhateverApp.service
 
+import com.tardigrada.WhateverApp.inputValidator.InputValidator
 import com.tardigrada.WhateverApp.model.User
 import com.tardigrada.WhateverApp.repository.UserRepository
 import org.springframework.stereotype.Service
@@ -7,7 +8,14 @@ import org.springframework.stereotype.Service
 @Service
 class UserService(private val userRepository: UserRepository) {
 
+    val inputValidator = InputValidator()
+
     fun saveUser(user: User): User {
+
+        if (!(inputValidator.inputCheck(user.firstName, user.lastName, user.email, user.dateOfBirth.toString(),
+                user.street, user.city, user.postcode, user.telephoneNumber)) || !(inputValidator.emailCheck(user.email))) {
+            throw java.lang.IllegalArgumentException("Fill all the fields in correct format.")
+        }
         if(getUsers().any { it.email == user.email }) {
             throw java.lang.IllegalArgumentException("User with e-mail ${user.email} already exists.")
         }
@@ -18,14 +26,14 @@ class UserService(private val userRepository: UserRepository) {
 
     fun getUserById(userId: Int): User {
         if (userRepository.findById(userId).isEmpty) {
-            throw NoSuchElementException("Could not find user with id $userId")
+            throw NoSuchElementException("Could not find user with id $userId.")
         }
         return userRepository.findById(userId).get()
     }
 
     fun updateUserById(user: User, userId: Int): User {
         if (userRepository.findById(userId).isEmpty) {
-            throw NoSuchElementException("Could not find user with id $userId")
+            throw NoSuchElementException("Could not find user with id $userId.")
         }
         deleteUserById(userId)
         return saveUser(user)
@@ -33,7 +41,7 @@ class UserService(private val userRepository: UserRepository) {
 
     fun deleteUserById(userId: Int): Unit {
         if (userRepository.findById(userId).isEmpty) {
-            throw NoSuchElementException("Could not find user with id $userId")
+            throw NoSuchElementException("Could not find user with id $userId.")
         }
         return userRepository.deleteById(userId)
     }
