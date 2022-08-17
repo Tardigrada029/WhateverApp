@@ -3,7 +3,7 @@ package com.tardigrada.WhateverApp.service
 import com.tardigrada.WhateverApp.inputValidator.InputValidator
 import com.tardigrada.WhateverApp.model.User
 import com.tardigrada.WhateverApp.repository.UserRepository
-import org.mockito.Mockito
+import org.mockito.Mockito.*
 import org.springframework.boot.test.context.SpringBootTest
 import org.testng.Assert.*
 import org.testng.annotations.BeforeMethod
@@ -33,23 +33,21 @@ class UserServiceTest {
 
     @BeforeMethod
     fun setupBeforeClass() {
-        mockUserRepository = Mockito.mock(UserRepository::class.java)
-        mockInputValidator = Mockito.mock(InputValidator::class.java)
+        mockUserRepository = mock(UserRepository::class.java)
+        mockInputValidator = mock(InputValidator::class.java)
         userService = UserService(mockUserRepository, mockInputValidator)
     }
 
     // ***************************** saveUser() ************************************************
     @Test
-    fun `should create new user`() {
+    fun `create new user`() {
         // given
-        Mockito.`when`(
-            mockInputValidator.inputCheck(
-                FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
-                TELEPHONE_NUMBER
-            )
+        `when`(
+            mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
+                TELEPHONE_NUMBER)
         ).thenReturn(true)
-        Mockito.`when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
-        Mockito.`when`(mockUserRepository.save(USER)).thenReturn(USER)
+        `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
+        `when`(mockUserRepository.save(USER)).thenReturn(USER)
 
         // when
         val savedUser = userService.saveUser(USER)
@@ -59,50 +57,43 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw IllegalArgumentException when there is an incorrect email format while creating new user`() {
+    fun `throw IllegalArgumentException when there is an incorrect email format while creating new user`() {
         // given
-        Mockito.`when`(
-            mockInputValidator.inputCheck(
-                FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
-                TELEPHONE_NUMBER
-            )
+        `when`(
+            mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
+                TELEPHONE_NUMBER)
         ).thenReturn(true)
-        Mockito.`when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(false)
-        Mockito.`when`(mockUserRepository.save(USER)).thenReturn(USER)
+        `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(false)
+        `when`(mockUserRepository.save(USER)).thenReturn(USER)
 
         // when & then
         expectThrows(IllegalArgumentException::class.java) { userService.saveUser(USER) }
     }
 
     @Test
-    fun `should throw IllegalArgumentException when there is blank variable while creating new user`() {
+    fun `throw IllegalArgumentException when there is blank variable while creating new user`() {
         // given
-        Mockito.`when`(
-            mockInputValidator.inputCheck(
-                FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
-                TELEPHONE_NUMBER
-            )
+        `when`(
+            mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
+                TELEPHONE_NUMBER)
         ).thenReturn(false)
-        Mockito.`when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
-        Mockito.`when`(mockUserRepository.save(USER)).thenReturn(USER)
+        `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
+        `when`(mockUserRepository.save(USER)).thenReturn(USER)
 
         // when & then
         expectThrows(IllegalArgumentException::class.java) { userService.saveUser(USER) }
     }
 
     @Test
-    // @Ignore
-    fun `should throw IllegalArgumentException while creating new user with existing email`() {
+    fun `throw IllegalArgumentException while creating new user with existing email`() {
         // given
-        Mockito.`when`(
-            mockInputValidator.inputCheck(
-                FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
-                TELEPHONE_NUMBER
-            )
+        `when`(
+            mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
+                TELEPHONE_NUMBER)
         ).thenReturn(true)
-        Mockito.`when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
-        Mockito.`when`(mockUserRepository.findAll()).thenReturn(mutableListOf(USER))
-        Mockito.`when`(mockUserRepository.save(USER)).thenReturn(USER)
+        `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
+        `when`(mockUserRepository.findAll()).thenReturn(mutableListOf(USER))
+        `when`(mockUserRepository.save(USER)).thenReturn(USER)
 
         // when & then
         expectThrows(IllegalArgumentException::class.java) { userService.saveUser(USER) }
@@ -110,9 +101,9 @@ class UserServiceTest {
 
     // ***************************** getUsers() ************************************************
     @Test
-    fun `should return all existing saved users`() {
+    fun `return all existing saved users`() {
         // given
-        Mockito.`when`(mockUserRepository.findAll()).thenReturn(mutableListOf(USER))
+        `when`(mockUserRepository.findAll()).thenReturn(mutableListOf(USER))
 
         // when
         val numberOfUsers = userService.getUsers().count()
@@ -123,9 +114,9 @@ class UserServiceTest {
 
     // ***************************** getUserById() ************************************************
     @Test
-    fun `should return existing saved user with given id`() {
+    fun `return existing saved user with given id`() {
         // given
-        Mockito.`when`(mockUserRepository.findById(0)).thenReturn(Optional.of(USER))
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(USER))
 
         // when
         val result = userService.getUserById(0)
@@ -135,9 +126,9 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw NoSuchElementException when there is no saved user`() {
+    fun `throw NoSuchElementException when there is no saved user`() {
         // given
-        Mockito.`when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
 
         // when & then
         expectThrows(NoSuchElementException::class.java) { userService.getUserById(0) }
@@ -145,18 +136,16 @@ class UserServiceTest {
 
     // ***************************** updateUserById() ************************************************
     @Test
-    fun `should update existing user with given id`() {
+    fun `update existing user with given id`() {
         // given
-        Mockito.`when`(mockUserRepository.findById(0)).thenReturn(Optional.of(USER))
-        Mockito.`when`(
-            mockInputValidator.inputCheck(
-                FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
-                TELEPHONE_NUMBER
-            )
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.of(USER))
+        `when`(
+            mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
+                TELEPHONE_NUMBER)
         ).thenReturn(true)
-        Mockito.`when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
-        Mockito.`when`(mockUserRepository.save(USER)).thenReturn(USER)
-        Mockito.doNothing().`when`(mockUserRepository).deleteById(USER_ID)
+        `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
+        `when`(mockUserRepository.save(USER)).thenReturn(USER)
+        doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when
         val result = userService.updateUserById(USER, USER_ID)
@@ -166,18 +155,16 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw NoSuchElementException when user with given id is not present to update`() {
+    fun `throw NoSuchElementException when user with given id is not present to update`() {
         // given
-        Mockito.`when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
-        Mockito.`when`(
-            mockInputValidator.inputCheck(
-                FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
-                TELEPHONE_NUMBER
-            )
+        `when`(mockUserRepository.findById(0)).thenReturn(Optional.empty())
+        `when`(
+            mockInputValidator.inputCheck(FIRST_NAME, LAST_NAME, EMAIL, DATE_OF_BIRTH, STREET, CITY, POSTCODE,
+                TELEPHONE_NUMBER)
         ).thenReturn(true)
-        Mockito.`when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
-        Mockito.`when`(mockUserRepository.save(USER)).thenReturn(USER)
-        Mockito.doNothing().`when`(mockUserRepository).deleteById(USER_ID)
+        `when`(mockInputValidator.emailCheck(EMAIL)).thenReturn(true)
+        `when`(mockUserRepository.save(USER)).thenReturn(USER)
+        doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when & then
         expectThrows(NoSuchElementException::class.java) { userService.updateUserById(USER, USER_ID) }
@@ -185,10 +172,10 @@ class UserServiceTest {
 
     // ***************************** deleteUserById() ************************************************
     @Test
-    fun `should delete existing user with given id`() {
+    fun `delete existing user with given id`() {
         // given
-        Mockito.`when`(mockUserRepository.findById(USER_ID)).thenReturn(Optional.of(USER))
-        Mockito.doNothing().`when`(mockUserRepository).deleteById(USER_ID)
+        `when`(mockUserRepository.findById(USER_ID)).thenReturn(Optional.of(USER))
+        doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when
         val result = userService.deleteUserById(USER_ID)
@@ -198,10 +185,10 @@ class UserServiceTest {
     }
 
     @Test
-    fun `should throw NoSuchElementException when user with given id is not present to delete`() {
+    fun `throw NoSuchElementException when user with given id is not present to delete`() {
         // given
-        Mockito.`when`(mockUserRepository.findById(USER_ID)).thenReturn(Optional.empty())
-        Mockito.doNothing().`when`(mockUserRepository).deleteById(USER_ID)
+        `when`(mockUserRepository.findById(USER_ID)).thenReturn(Optional.empty())
+        doNothing().`when`(mockUserRepository).deleteById(USER_ID)
 
         // when & then
         expectThrows(NoSuchElementException::class.java) { userService.deleteUserById(USER_ID) }

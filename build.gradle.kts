@@ -17,7 +17,6 @@ repositories {
 }
 
 dependencies {
-
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -29,7 +28,7 @@ dependencies {
 	implementation("mysql:mysql-connector-java:8.0.30")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
-	// testing
+	// testing stuff
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.mockito:mockito-core:4.7.0")
 	testImplementation("org.testng:testng:7.6.1")
@@ -44,5 +43,4 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useTestNG()
-
 }
