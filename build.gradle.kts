@@ -31,10 +31,8 @@ dependencies {
 
 	// testing
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.junit.jupiter:junit-jupiter-engine:5.8.2")
-	testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.2")
-	testImplementation("io.mockk:mockk:1.12.4")
-	testImplementation("org.assertj:assertj-core:3.23.1")
+	testImplementation("org.mockito:mockito-core:4.7.0")
+	testImplementation("org.testng:testng:7.6.1")
 }
 
 tasks.withType<KotlinCompile> {
@@ -45,5 +43,6 @@ tasks.withType<KotlinCompile> {
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+	useTestNG()
+
 }
