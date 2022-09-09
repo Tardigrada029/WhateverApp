@@ -25,7 +25,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
 	// database stuff
-	implementation("mysql:mysql-connector-java:8.0.30")
+	implementation("org.postgresql:postgresql:42.5.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
 	// testing stuff
