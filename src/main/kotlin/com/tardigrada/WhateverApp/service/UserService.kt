@@ -43,5 +43,10 @@ class UserService (private val userRepository: UserRepository, private val input
         return userRepository.deleteById(userId)
     }
 
-
+    fun deleteUserByEmail(email: String): Unit {
+        if (userRepository.findByEmail(email).isEmpty) {
+            throw NoSuchElementException("Could not find user with e-mail $email.")
+        }
+        return userRepository.deleteByEmail(email)
+    }
 }

@@ -33,4 +33,7 @@ class UserController(private val userService: UserService) {
     @DeleteMapping("/{userId}")
     fun deleteUserById(@PathVariable userId: Int) = userService.deleteUserById(userId)
 
+    @DeleteMapping("/{email}")
+    fun deleteUserByEmail(@PathVariable email: String) = userService.deleteUserByEmail(email)
+
 }
